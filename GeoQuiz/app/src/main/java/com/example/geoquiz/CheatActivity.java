@@ -44,7 +44,6 @@ public class CheatActivity extends AppCompatActivity {
                 }
                 setAnswerShownResult(true);
 
-                setAnswerShownResult(true);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     int cx = mShowAnswerButton.getWidth() / 2;
                     int cy = mShowAnswerButton.getHeight() / 2;
