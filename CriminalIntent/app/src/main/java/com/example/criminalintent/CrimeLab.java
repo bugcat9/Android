@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.criminalintent.database.CrimeBaseHelper;
 import com.example.criminalintent.database.CrimeCursorWrapper;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -99,6 +100,12 @@ public class CrimeLab {
         }
 
     }
+
+    public File getPhotoFile(Crime crime) {
+        File filesDir = mContext.getFilesDir();
+        return new File(filesDir, crime.getPhotoFilename());
+    }
+
 
     public void updateCrime(Crime crime) {
         String uuidString = crime.getId().toString();
