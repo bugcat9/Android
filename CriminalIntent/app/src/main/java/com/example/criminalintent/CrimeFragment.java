@@ -281,7 +281,7 @@ public class CrimeFragment extends Fragment {
             // values for.
             String[] queryFields = new String[]{
                     ContactsContract.Contacts.DISPLAY_NAME,
-                    ContactsContract.CommonDataKinds.Phone.NUMBER
+                    ContactsContract.Contacts._ID
             };
             // Perform your query - the contactUri is like a "where"
             // clause here
@@ -296,9 +296,17 @@ public class CrimeFragment extends Fragment {
                 // that is your suspect's name
                 c.moveToFirst();
                 String suspect = c.getString(0);
-                String number = c.getString(1);
+                String contactId = c.getString(1);
+                //TODO 加上运行时权限，目前是手动给定权限
+                Cursor phone = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactId,
+                        null, null);
+                if (phone.moveToNext()) {
+                    String number = phone.getString(phone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                    mCrime.setPhoneNumber(number);
+                    mCallButton.setText("call:" + number);
+                }
                 mCrime.setSuspect(suspect);
-                mCrime.setPhoneNumber(number);
                 updateCrime();
                 mSuspectButton.setText(suspect);
             } finally {
@@ -360,10 +368,14 @@ public class CrimeFragment extends Fragment {
     private void updatePhotoView() {
         if (mPhotoFile == null || !mPhotoFile.exists()) {
             mPhotoView.setImageDrawable(null);
+            mPhotoView.setContentDescription(
+                    getString(R.string.crime_photo_no_image_description));
         } else {
             Bitmap bitmap = PictureUtils.getScaledBitmap(
                     mPhotoFile.getPath(), getActivity());
             mPhotoView.setImageBitmap(bitmap);
+            mPhotoView.setContentDescription(
+                    getString(R.string.crime_photo_image_description));
         }
     }
 
