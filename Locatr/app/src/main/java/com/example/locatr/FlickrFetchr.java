@@ -1,5 +1,6 @@
 package com.example.locatr;
 
+import android.location.Location;
 import android.net.Uri;
 import android.util.Log;
 
@@ -79,6 +80,15 @@ public class FlickrFetchr {
         return uriBuilder.build().toString();
     }
 
+    private String buildUrl(Location location) {
+        return ENDPOINT.buildUpon()
+                .appendQueryParameter("method", SEARCH_METHOD)
+                .appendQueryParameter("lat", "" + location.getLatitude())
+                .appendQueryParameter("lon", "" + location.getLongitude())
+                .build().toString();
+    }
+
+
     private void parseItems(List<GalleryItem> items, JSONObject jsonBody)
             throws IOException, JSONException {
         JSONObject photosJsonObject = jsonBody.getJSONObject("photos");
@@ -109,6 +119,11 @@ public class FlickrFetchr {
 
     public List<GalleryItem> searchPhotos(String query) {
         String url = buildUrl(SEARCH_METHOD, query);
+        return downloadGalleryItems(url);
+    }
+
+    public List<GalleryItem> searchPhotos(Location location) {
+        String url = buildUrl(location);
         return downloadGalleryItems(url);
     }
 }
