@@ -67,10 +67,10 @@ public class QuizActivity extends AppCompatActivity {
         mTrueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast toast = Toast.makeText(QuizActivity.this, R.string.correct_toast, Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(QuizActivity.this, R.string.correct_toast, Toast.LENGTH_SHORT);
 //                第一章挑战练习:设置toast在上方显示
-//                toast.setGravity(Gravity.TOP, 0, 0);
-//                toast.show();
+                toast.setGravity(Gravity.TOP, 0, 0);
+                toast.show();
                 checkAnswer(true);
             }
         });
